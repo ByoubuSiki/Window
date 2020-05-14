@@ -2,24 +2,25 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include"..\Pch.h"
+#include<Windows.h>
+#include<tchar.h>
 
-class Window
+//ウィンドウアプリケーションクラス
+class AppWin
 {
-	WNDCLASSEX w = {};
-	RECT wrc = {};
-
-	void RegistClass();//ウィンドウクラスの作成・登録
-	void Show();//ウィンドウの表示
+	void RegistClass(const wchar_t*);//ウィンドウクラスの作成・登録
 
 public:
-	Window();
-	Window(const LONG, const LONG);
-	~Window();
+	AppWin();
+	AppWin(const LONG, const LONG);//画面サイズ指定
+	AppWin(const LONG, const LONG, const wchar_t*);//アプリケーション名指定
+	~AppWin();
 
-	void Create();//ウィンドウの作成
+	void Show(const wchar_t*);//ウィンドウの表示
 
-	HWND hwnd;//ウィンドウハンドル
+	WNDCLASSEX w = {};
+	RECT wrc = {};
+	HWND hwnd = {};//ウィンドウハンドル
 	LONG width, height;//ウィンドウサイズ
 };
 

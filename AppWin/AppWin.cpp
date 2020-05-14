@@ -1,28 +1,37 @@
-#include"Window.h"
+#include"AppWin.h"
 
-Window::Window()
-	: Window(800, 600)
+AppWin::AppWin()
+	: AppWin(800, 600,L"None")
 {
 
 }
 
-Window::Window(const LONG win_width, const LONG win_height)
+AppWin::AppWin(const LONG win_width, const LONG win_height)
+	: AppWin(win_width, win_height, L"None")
+{
+
+}
+
+AppWin::AppWin(const LONG win_width, const LONG win_height, const wchar_t* appName)
 {
 	width = win_width;
 	height = win_height;
+
+	//ウィンンドウの登録
+	RegistClass(appName);
 }
 
-Window::~Window()
+AppWin::~AppWin()
 {
 	UnregisterClass(w.lpszClassName, w.hInstance);
 }
 
 //クラスの登録
-void Window::RegistClass()
+void AppWin::RegistClass(const wchar_t* appName)
 {
 	w.cbSize = sizeof(WNDCLASSEX);
 	w.lpfnWndProc = (WNDPROC)WindowProcedure;//コールバック関数の指定
-	w.lpszClassName = _T("DXSample");//アプリケーションクラス名
+	w.lpszClassName = appName;//アプリケーションクラス名
 	w.hInstance = GetModuleHandle(nullptr);//ハンドルの取得
 
 	RegisterClassEx(&w);//アプリケーションクラスの登録
@@ -31,7 +40,7 @@ void Window::RegistClass()
 }
 
 //ウィンドウの表示
-void Window::Show()
+void AppWin::Show(const wchar_t* windowName)
 {
 	//ウィンドウサイズの補正
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
@@ -39,7 +48,7 @@ void Window::Show()
 	//ウィンドウオブジェクトの作成
 	hwnd = CreateWindow(
 		w.lpszClassName,//クラス名
-		_T("DX12テスト"),//タイトルバー
+		windowName,//タイトルバー
 		WS_OVERLAPPEDWINDOW,//タイトルバーと境界線があるウィンドウ
 		CW_USEDEFAULT,//OSに任せる
 		CW_USEDEFAULT,//OSに任せる
@@ -53,14 +62,6 @@ void Window::Show()
 
 	//ウィンドウ表示
 	ShowWindow(hwnd, SW_SHOW);
-}
-
-//ウィンドウの作成
-void Window::Create()
-{
-	RegistClass();
-
-	Show();
 }
 
 //ウィンドウプロージャ
