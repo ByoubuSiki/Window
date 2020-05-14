@@ -2,19 +2,18 @@
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
+	//AppWin win(); ウィンドウサイズとアプリケーション名が勝手に指定
 
-	AppWin win(500, 500);
-	win.Show(L"aaa");
+	/*AppWin win(1000,800) ウィンドウサイズが幅1000,高さ800で指定
+							アプリケーション名は勝手に指定*/
 
-	MSG msg = {};
+	AppWin win(500, 500, L"Example");//アプリケーション名を指定
 
-	while (msg.message != WM_QUIT)
+	win.Show(L"Example");//ウィンドウの名前を指定して表示
+
+	while (win.Present())//ウィンドウが破棄されていないならtrue
 	{
-		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
+		win.Update();//メッセージの更新
 	}
 
 	return 0;

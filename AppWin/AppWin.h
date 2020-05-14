@@ -17,10 +17,13 @@ public:
 	~AppWin();
 
 	void Show(const wchar_t*);//ウィンドウの表示
+	void Update();//ループ中の更新
+	bool Present();//ウィンドウが存在するかを判定
 
 	WNDCLASSEX w = {};
 	RECT wrc = {};
 	HWND hwnd = {};//ウィンドウハンドル
+	MSG msg = {};//メッセージ
 	LONG width, height;//ウィンドウサイズ
 };
 

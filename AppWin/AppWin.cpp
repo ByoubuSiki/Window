@@ -64,6 +64,21 @@ void AppWin::Show(const wchar_t* windowName)
 	ShowWindow(hwnd, SW_SHOW);
 }
 
+void AppWin::Update()
+{
+	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+}
+
+//ウィンドウが存在するならtrue
+bool AppWin::Present()
+{
+	return msg.message != WM_QUIT;
+}
+
 //ウィンドウプロージャ
 LRESULT WindowProcedure(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
