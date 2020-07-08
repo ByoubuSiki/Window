@@ -17,7 +17,7 @@ public:
 	~AppWin();
 
 	void Show(const wchar_t*);//ウィンドウの表示
-	void Update();//ループ中の更新
+
 	bool Present();//ウィンドウが存在するかを判定
 
 	WNDCLASSEX w = {};
@@ -28,6 +28,6 @@ public:
 };
 
 //ウィンドウプロージャ
-LRESULT WindowProcedure(HWND, UINT, WPARAM, LPARAM);
+LRESULT CALLBACK WindowProcedure(HWND, UINT, WPARAM, LPARAM);
 
 #endif // !WINDOW_H

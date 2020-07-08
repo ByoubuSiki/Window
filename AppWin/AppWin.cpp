@@ -31,10 +31,13 @@ void AppWin::RegistClass(const wchar_t* appName)
 {
 	w.cbSize = sizeof(WNDCLASSEX);
 	w.lpfnWndProc = (WNDPROC)WindowProcedure;//コールバック関数の指定
-	w.lpszClassName = appName;//アプリケーションクラス名
 	w.hInstance = GetModuleHandle(nullptr);//ハンドルの取得
+	w.lpszClassName = appName;//アプリケーションクラス名
 
-	RegisterClassEx(&w);//アプリケーションクラスの登録
+	if (!RegisterClassEx(&w))
+	{
+		exit(1);
+	}
 
 	wrc = { 0,0,width,height };//ウィンドウサイズ
 }
@@ -60,27 +63,31 @@ void AppWin::Show(const wchar_t* windowName)
 		nullptr//追加パラメータ
 	);
 
-	//ウィンドウ表示
-	ShowWindow(hwnd, SW_SHOW);
-}
-
-void AppWin::Update()
-{
-	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+	if (hwnd)
 	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		//ウィンドウ表示
+		ShowWindow(hwnd, SW_SHOW);
+
+		UpdateWindow(hwnd);
 	}
 }
 
 //ウィンドウが存在するならtrue
 bool AppWin::Present()
 {
-	return msg.message != WM_QUIT;
+	if (GetMessage(&msg, NULL, 0, 0))
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+
+		return true;
+	}
+
+	return false;
 }
 
 //ウィンドウプロージャ
-LRESULT WindowProcedure(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	//ウィンドウが削除
 	if (msg == WM_DESTROY)

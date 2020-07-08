@@ -1,11 +1,8 @@
 #include"AppWin.h"
 
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	//AppWin win(); ウィンドウサイズとアプリケーション名が勝手に指定
-
-	/*AppWin win(1000,800) ウィンドウサイズが幅1000,高さ800で指定
-							アプリケーション名は勝手に指定*/
 
 	AppWin win(500, 500, L"Example");//アプリケーション名を指定
 
@@ -13,7 +10,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	while (win.Present())//ウィンドウが破棄されていないならtrue
 	{
-		win.Update();//メッセージの更新
+
 	}
 
 	return 0;
