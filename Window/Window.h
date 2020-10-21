@@ -9,16 +9,23 @@ namespace Win
 	{
 	public:
 		Window();
-		Window(const LONG, const LONG);//Window Size
-		Window(const LONG, const LONG,const std::wstring&);//window size,window name
+		Window(const int, const int);//Window Size
+		Window(const int, const int,const std::wstring&);//window size,window name
 
 		~Window() {};
 
-		bool Create(const HINSTANCE,const LONG, const LONG);//Create window
+		//Create window
+		bool Create(const HINSTANCE);
+		bool Create(const HINSTANCE, const int, const int);
 
-		LONG width, height;
-		HWND hwnd;
-		std::wstring name;
+		int width, height;//window width ans height
+		int x, y;//window coordinate
+		HWND hwnd;//window handle
+		std::wstring className,title;//window title
+		DWORD style;//dwStyle
+		HWND hParent;
+		HMENU hMenu;
+		LPVOID lpParam;
 
 	private:
 

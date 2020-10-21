@@ -2,34 +2,38 @@
 
 namespace Win
 {
-	Window::Window() :Window::Window(0, 0, L"")
-	{
-
-	}
+	Window::Window() :Window::Window(0, 0, L"") {}
 
 	//Window Size
-	Window::Window(const LONG width, const LONG height) :Window(width, height, L"")
-	{
-
-	}
+	Window::Window(const int width, const int height) :Window(width, height, L"") {}
 
 	//window size,window name
-	Window::Window(const LONG width, const LONG height,const std::wstring& name)
-		:hwnd(NULL)
+	Window::Window(const int width, const int height, const std::wstring& name)
+		: x(0), y(0), hwnd(NULL), style(WS_CAPTION), className(L"STATIC"),
+		hParent(NULL), hMenu(NULL), lpParam(NULL)
 	{
 		this->width = width;
 		this->height = height;
-		this->name = name;
+		this->title = name;
 	}
 
 	//Create window
-	bool Window::Create(const HINSTANCE hInstance,const LONG x,const LONG y)
+	bool Window::Create(const HINSTANCE hInstance)
 	{
 		hwnd = CreateWindow(
-			L"Unknown", name.c_str(), WS_CAPTION,
-			x, y, width, height, NULL, NULL,
-			hInstance, NULL
+			className.c_str(), title.c_str(), style,
+			x, y, width, height, hParent, hMenu,
+			hInstance, lpParam
 		);
+
+		if (hwnd == NULL)
+		{
+			return false;
+		}
+
+		ShowWindow(hwnd, SW_SHOW);
+
+		return true;
 	}
 
 }
